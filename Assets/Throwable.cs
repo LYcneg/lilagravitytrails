@@ -6,6 +6,7 @@ public class Throwable : MonoBehaviour
 {
     public GameObject objectThrown;
     public Vector3 offset;
+    public int throwableCounter;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,9 +18,22 @@ public class Throwable : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            offset = transform.localScale.x * new Vector3(1, 0, 0);
-            Instantiate(objectThrown, transform.position, transform.rotation);
+            if (throwableCounter > 0)
+            {
+                offset = transform.localScale.x * new Vector3(5, 0, 0);
+                Vector3 throwablePosition = transform.position + offset;
+                Instantiate(objectThrown, throwablePosition, transform.rotation);
+                throwableCounter --;
+            }
         }
-
+        
+    }
+   void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Collectible")
+        {
+            throwableCounter++;
+            Destroy(col.gameObject);
+        }
     }
 }
