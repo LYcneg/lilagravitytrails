@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Throwable : MonoBehaviour
 {
+    public Text collectibleCounter;
     public GameObject objectThrown;
     public Vector3 offset;
     public int throwableCounter;
@@ -22,8 +24,10 @@ public class Throwable : MonoBehaviour
             {
                 offset = transform.localScale.x * new Vector3(5, 0, 0);
                 Vector3 throwablePosition = transform.position + offset;
-                Instantiate(objectThrown, throwablePosition, transform.rotation);
+                GameObject p = Instantiate(objectThrown, throwablePosition, transform.rotation);
+                p.GetComponent<Projectile>().isActive = true;
                 throwableCounter --;
+                collectibleCounter.text = throwableCounter.ToString();
             }
         }
         
@@ -33,6 +37,7 @@ public class Throwable : MonoBehaviour
         if (col.gameObject.tag == "Collectible")
         {
             throwableCounter++;
+            collectibleCounter.text = throwableCounter.ToString();
             Destroy(col.gameObject);
         }
     }

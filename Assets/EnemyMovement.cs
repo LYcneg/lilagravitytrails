@@ -7,6 +7,7 @@ public class EnemyMovement : MonoBehaviour
     public float yForce;
     public float xForce;
     public float xDirection;
+    public Teleport tp;
 
     private Rigidbody2D enemyRigidBody;
     // Start is called before the first frame update
@@ -20,6 +21,12 @@ public class EnemyMovement : MonoBehaviour
         {
             Vector2 jumpForce = new Vector2(xForce, yForce);
             enemyRigidBody.AddForce(jumpForce);
+        }
+        if (collision.gameObject.tag == "ThrowingObject")
+        {
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+            tp.enemyCount --;
         }
     }
     // Update is called once per frame
